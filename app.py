@@ -11,14 +11,14 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'cooking'
-app.config['MONGO_URI'] = os.getenv('MONGO_URI','mongodb://localhost')
+app.config['MONGO_URI'] = os.environ.get('MONGO_URI','mongodb://localhost')
 
 mongo = PyMongo(app)
 
 @app.route('/')
 def index():
     a_recipe = mongo.db.recipes.find()
-    return render_template("index.html", recipe = a_recipe)
+    return render_template("recipes.html", recipes=mongo.db.recipes.find())
 
 
 
