@@ -1,0 +1,20 @@
+body {
+    background: #fff;
+}
+
+.capitalise {
+    text-transform: capitalize;
+}
+
+h3 {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+nav {
+    display: inline;
+}
+
+li {
+    display: inline;
+}
