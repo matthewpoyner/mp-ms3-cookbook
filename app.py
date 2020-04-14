@@ -27,11 +27,6 @@ def enter_recipe():
     main_ingredient=mongo.db.main_ingredient.find().sort('main_ingredient',1)
     return render_template('enter_recipe.html', recipes=recipes, cuisine=cuisine, main_ingredient=main_ingredient)
 
-@app.route('/show_recipes')
-def show_recipes():
-    recipes=mongo.db.recipes.find().sort('recipe_name', 1)
-    return render_template("show_recipes.html", recipes=recipes)
-
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
@@ -45,9 +40,16 @@ def insert_recipe():
         'total_cooking_time':request.form['total_cooking_time'],
         'fat_per_serve':request.form['fat_per_serve'],
         'ingredients':request.form['ingredients'],
-        'instructions':request.form['instructions'],
+        'instructions':request.form['instructions']
     })
     return render_template('index.html')
+
+
+@app.route('/show_recipes')
+def show_recipes():
+    recipes=mongo.db.recipes.find().sort('recipe_name', 1)
+    return render_template("show_recipes.html", recipes=recipes)
+
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"), 
