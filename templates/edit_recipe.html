@@ -1,0 +1,202 @@
+{% extends 'base.html' %} {% block content %}
+
+<title>Edit Recipe</title>
+
+
+<div class="container">
+    <h1>Edit Recipe</h1>
+    <form name="edit_recipe_form" action="{{url_for('update_recipe', recipe_id=recipe._id)}}" method="POST" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="recipe_name">Recipe Name</label>
+                <input value="{{recipe.recipe_name}}" type="text-area " class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " required>
+                <div class="invalid-feedback">
+                    Please enter a recipe name (max 25 characters).
+                </div>
+                <div class="valid-feedback">
+                    Sounds good!
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-md-6">
+                <label for="cook_name ">Your Name:</label>
+                <input value="{{recipe.cook_name}}" type="text-area " class="form-control capitalise " name="cook_name" id="cook_name" placeholder="Enter your name ">
+            </div>
+        </div>
+        <!--   ------------------------------------------- -->
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label for="cuisine_name">Cuisine Type  <span class="text-muted">(Select from dropdown)</span></label>
+                <select class="form-control" name="cuisine_name" id="cuisine_name" required>
+                    <option value = "" disabled selected></option>
+                    {% for cuisine in cuisines %}
+                    {% if cuisine.cuisine_name == recipe.cuisine_name%}
+                    <option value="{{cuisine.cuisine_name}}" selected>{{cuisine.cuisine_name.title()}}</option>
+                    {% else %}
+                    <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name.title()}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a type of cuisine.
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <label for="meal_type">Meal Type  <span class="text-muted">(Select from dropdown)</span></label>
+                <select class="form-control" name="meal_course" id="meal_course" required>
+                    <option value = "" disabled selected></option>
+                    {% for meal in meal_course%}
+                    {% if meal.course_name == meal.course_name%}
+                    <option value="{{ meal.course_name }}" selected>{{ meal.course_name.title() }}</option>
+                    {% else %}
+                    <option value="{{ meal.course_name }}">{{ meal.course_name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a meal type.
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                <label for="main_ingredient">Main Ingredient  <span class="text-muted">(Select from dropdown)</span></label>
+                <select class="form-control" name="main_ingredient" id="main_ingredient" required>
+                    <option value = "" disabled selected></option>
+                    {% for main in main_ingredient%}
+                    {% if main.main_ingredient == main.main_ingredient %}
+                    <option value="{{ main.main_ingredient }}" selected>{{ main.main_ingredient.title() }}</option>
+                    {% else %}
+                    <option value="{{ main.main_ingredient }}">{{ main.main_ingredient.title() }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    </select>
+                <div class="invalid-feedback">
+                    Please select a meal type.
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
+                <label for="prep_time">Prep Time:</label>
+                <input value={{recipe.prep_time}} type="number" class="form-control" name="prep_time" id="prep_time" placeholder="minutes" required>
+            </div>
+
+            <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
+                <label for="cook_name ">Total Cook Time:</label>
+                <input value={{recipe.total_cooking_time}} type="number" class="form-control" name="total_cooking_time" id="total_cooking_time" placeholder="minutes" required>
+            </div>
+
+
+            <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
+                <label for="servings">Serves</label>
+                <input value={{recipe.servings}} type="number" class="form-control" name="servings" id="servings" placeholder="servings" required>
+            </div>
+        </div>
+
+
+        <h3>Edit Your Ingredients</h3>
+        <div class="row" class="no-gutters">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <textarea class="form-control" id="ingredients" name="ingredients" rows="5" placeholder="Enter each ingredient on a new line." required>
+                    {%- for ingredient in recipe.ingredients -%}
+                    {{ingredient}} &#13;&#10;
+                    {%- endfor -%}
+                </textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <h3>Cooking Method</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <textarea class="form-control instructions" id="instructions" name="instructions" rows="5" placeholder="Enter each step on a new line." required>
+                    {%- for step in recipe.instructions -%}
+                    {{step}} &#13;&#10;
+                    {%- endfor -%}
+                    </textarea>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h3>Nutritional Information</h3>
+        <div class="row">
+            <div class="col">
+                <p class="">All values should be entered per serving</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class=" col-6 col-sm-4 col-md-3 col-lg-2">
+                <label for="protein">Protein</label>
+                <input type="text-area " class="form-control" name="protein" id="protein" placeholder="grams">
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <label for="fat_per_serve">Fat</label>
+                <input type="text-area " class="form-control" name="fat_per_serve" id="fat_per_serve" placeholder="grams">
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <label for="carbohydrate">Carbohydrate</label>
+                <input type="text-area " class="form-control" name="carbohydrate" id="carbohydrate" placeholder="grams">
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <label for="dietary_fibre">Dietary Fibre</label>
+                <input type="text-area " class="form-control" name="dietary_fibre" id="dietary_fibre" placeholder="grams">
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <label for="cholesterol">Cholesterol</label>
+                <input type="text-area " class="form-control" name="cholesterol" id="cholesterol" placeholder="milligrams">
+            </div>
+
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <label for="energy">Energy</label>
+                <input type="text-area " class="form-control" name="energy" id="energy" placeholder="kJ">
+            </div>
+        </div>
+
+
+        <h3>Recipe Image</h3>
+
+        <div class="row">
+            <div class="col">
+                <label for="image_src"></label>
+                <input value={{recipe.image_src}} type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here ">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-success" type="submit" id="addRecipe">Save Recipe</button> <br>Click here to update your recipe
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}

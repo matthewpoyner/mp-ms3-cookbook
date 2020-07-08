@@ -1,11 +1,25 @@
 {% extends 'base.html' %}{% block content %}
 
-<div class="div">
-    <div class="col">
+<div class="container">
+    <h1>Choose a recipe</h1>
+    <div class="row recipe no-gutters">
         {% for recipe in recipes %}
-        <div class="row">{{recipe._id}}{{recipe.recipe_name}} {{recipe.cook_name}} {{recipe.cuisine_name}} {{recipe.main_ingredient}} {{recipe.prep_time}} {{recipe.total_cooking_time}} {{recipe.fat_per_serve}} {{recipe.ingredients}} {{recipe.instructions}}
+        <div class="col-sm-6 col-md-4 recipe">
+
+            <div class="card">
+                <img src="{{recipe.image_src}}" class="card-img-top" alt="dish image">
+                <div class="card-body">
+                    <p class="recipe-name"><a href="{{url_for('show_one_recipe',recipe_id = recipe._id)}}">{{recipe.recipe_name.title()}}</a></p>
+                    <p class="text-muted">by {{recipe.cook_name.title()}}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">{{recipe.cuisine_name.title()}}</small>
+                </div>
+            </div>
+
         </div>
+
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

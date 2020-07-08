@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% block content %}
+
+<div class="container-fluid">
+    <h1>Choose a recipe</h1>
+    <div class="row">
+        {% for recipe in recipes %}
+        <div class="col-6 col-sm-6 col-md-4 no-padding">
+            <div class="card">
+                <img src="{{recipe.image_url}}" class="card-img-top recipe-image" alt="dish image">
+                <div class="card-body">
+                    <p class="recipe-name"><a href="{{url_for('testing',recipe_id = recipe._id)}}">{{recipe.recipe_name.title()}}</a></p>
+                    <p class="text-muted">by {{recipe.cook_name.title()}}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        {% endfor %}
+    </div>
+    {% endblock %}
+</div>

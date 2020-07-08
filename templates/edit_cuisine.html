@@ -1,0 +1,22 @@
+{% extends 'base.html'%} {% block content %}
+
+
+<div class="container-fluid">
+    <h3>Edit Cuisine Name</h3>
+    <form action="{{ url_for('update_cuisine', cuisines_id=cuisines._id) }}" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+
+                <input id="cuisine_name" name="cuisine_name" type="text" class="validate" value="{{cuisines.cuisine_name}}">
+
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-success" type="submit" name="action"><i class="far fa-edit"></i> Edit Cuisine  
+
+                </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

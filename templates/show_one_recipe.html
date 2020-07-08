@@ -1,0 +1,124 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>{{recipes.recipe_name.title()}}</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div>by {{recipes.cook_name.title()}}</div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {{recipes.cuisine_name.title()}}
+        </div>
+    </div>
+</div>
+
+
+<div class="container hide-on-less-than-576px">
+    <div class="row">
+        <div class="col">
+            <h3>Ingredients</h3>
+            {% for ingredient in recipes.ingredients %}
+            <div>{{ ingredient }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<div class="container hide-on-less-than-576px">
+    <div class="row">
+        <div class="col">
+            <h3>Method</h3>
+            {% for instruction in recipes.instructions %}
+            <p>{{ instruction }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container hide-on-more-than-576px">
+
+    <nav>
+        <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-ingredients" role="tab" aria-controls="nav-ingredients" aria-selected="true">
+                <h4>Ingredients</h4>
+            </a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-instructions" role="tab" aria-controls="nav-instructions" aria-selected="false">
+                <h4>Instructions</h4>
+            </a>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active nav-ingredients" id="nav-ingredients" role="tabpanel" aria-labelledby="nav-home-tab">{% for object in recipes.ingredients %}
+                <div>{{ object }}</div>
+                {% endfor %}</div>
+            <div class="tab-pane fade" id="nav-instructions" role="tabpanel" aria-labelledby="nav-profile-tab">{% for object in recipes.instructions %}
+                <p>{{ object }}</p>
+                {% endfor %}</div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Show nutritional values
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">Protein {{recipes.protein}} g;</div>
+                                    <div class="row">Fat {{recipes.fat_per_serve}} g; </div>
+                                    <div class="row">Carbohydrate {{recipes.carbohydrate}} g;</div>
+                                    <div class="row">Dietary Fibre {{recipes.dietary_fibre}} g; </div>
+                                    <div class="row">Cholesterol {{recipes.cholesterol}} g;</div>
+                                    <div class="row">Energy {{recipes.energy}} g; </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col">
+            <h6>Edit or delete this recipe</h6>
+            <div><a href="{{url_for('edit_recipe', recipe_id=recipes._id)}}" class="btn btn-sm btn-success"><i class="far fa-edit"></i> Edit</a>
+                <a href="{{url_for('delete_recipe', recipe_id=recipes._id)}}" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
