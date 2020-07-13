@@ -3,11 +3,12 @@
 <title>Add A Recipe</title>
 <div class="container-fluid">
     <h1>Add A New Recipe</h1>
+
     <form name="new_recipe_form" action="{{url_for('insert_recipe')}}" method="POST" class="needs-validation" novalidate>
         <div class="row">
             <div class="col-md-6">
                 <label for="recipe_name">Recipe Name</label>
-                <input type="text-area " class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
+                <input type="text-area" class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
                 <div class="invalid-feedback">
                     Please enter a recipe name (max 25 characters).
                 </div>
@@ -15,18 +16,17 @@
                     Sounds good!
                 </div>
             </div>
-
             <div class="col-md-6">
-                <label for="cook_name ">Your Name:</label>
-                <input type="text-area " class="form-control capitalise " name="cook_name" id="cook_name" placeholder="Enter your name ">
+                <label for="cook_name">Cook Name</label>
+                <input type="text-area" class="form-control capitalise" name="cook_name" id="cook_name" placeholder="{{session['username']}}" disabled>
             </div>
         </div>
         <!--   ------------------------------------------- -->
-        <div class="row form-group">
-            <div class="col-md-4">
+        <div class="row form-group ">
+            <div class="col-md-4 ">
                 <label for="cuisine_name">Cuisine Type  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="cuisine_name" id="cuisine_name" required>
-                    <option value = "" disabled selected></option>
+                    <option value = " " disabled selected></option>
                     {% for cuisine in cuisines %}
                     <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name.title() }}</option>
                     {% endfor %}
@@ -42,7 +42,7 @@
             <div class="col-md-4">
                 <label for="meal_type">Meal Course  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="meal_course" id="meal_course" required>
-                    <option value = "" disabled selected></option>
+                    <option value = " " disabled selected></option>
                     {% for meal in meal_course%}
                     <option value="{{ meal.course_name }}">{{ meal.course_name.title() }}</option>
                     {% endfor %}
@@ -59,7 +59,7 @@
             <div class="col-md-4">
                 <label for="main_ingredient">Main Ingredient  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="main_ingredient" id="main_ingredient" required>
-                    <option value = "" disabled selected></option>
+                    <option value = " " disabled selected></option>
                     {% for main in main_ingredient%}
                     <option value="{{ main.main_ingredient }}">{{ main.main_ingredient.title() }}</option>
                     {% endfor %}
@@ -76,8 +76,8 @@
 
         <div class="row">
             <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
-                <label for="prep_time">Prep Time:</label>
-                <input type="number" step="0.01" class="form-control" name="prep_time" id="prep_time " placeholder="minutes " required>
+                <label for="prep_time ">Prep Time:</label>
+                <input type="number" class="form-control" name="prep_time" id="prep_time" placeholder="minutes" required>
             </div>
             <div class="invalid-feedback">
                 Please enter numbers only
@@ -86,34 +86,34 @@
                 Looks good!
             </div>
 
-            <div class="no-gutter col-sm-6 col-md-3 col-lg-2 ">
+            <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
                 <label for="cook_name">Total Cook Time:</label>
                 <input type="number" class="form-control" name="total_cooking_time" id="total_cooking_time" placeholder="minutes" required>
             </div>
 
 
-            <div class="no-gutter col-sm-6 col-md-3 col-lg-2 ">
+            <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
                 <label for="servings">Serves</label>
-                <input type="number" class="form-control" name="servings" id="servings " placeholder="servings " required>
+                <input type="number" class="form-control" name="servings" id="servings" placeholder="servings" required>
             </div>
         </div>
 
 
         <h3>Add Your Ingredients</h3>
-        <div class="row " class="no-gutters">
-            <div class="col-md-12 ">
+        <div class="row" class="no-gutters">
+            <div class="col-md-12">
                 <div class="input-group">
-                    <textarea class="form-control" id="ingredients" name="ingredients" rows="5" placeholder="Enter each ingredient on a new line. " required></textarea>
+                    <textarea class="form-control" id="ingredients" name="ingredients" rows="5 " placeholder="Enter each ingredient on a new line. " required></textarea>
                 </div>
             </div>
         </div>
 
 
         <h3>Cooking Method</h3>
-        <div class="row ">
-            <div class="col-md-12 ">
-                <div class="input-group ">
-                    <textarea class="form-control" id="instructions" name="instructions" rows="5" placeholder="Enter each step on a new line. " required></textarea>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <textarea class="form-control" id="instructions" name="instructions" rows="5" placeholder="Enter each step on a new line." required></textarea>
                 </div>
             </div>
         </div>
@@ -133,29 +133,29 @@
                 <input type="number" class="form-control" name="protein" id="protein" placeholder="grams">
             </div>
 
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <label for="fat_per_serve">Fat</label>
-                <input type="number" class="form-control " name="fat_per_serve " id="fat_per_serve" placeholder="grams">
+                <input type="number" class="form-control" name="fat_per_serve" id="fat_per_serve" placeholder="grams">
             </div>
 
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <label for="carbohydrate">Carbohydrate</label>
-                <input type="number" class="form-control " name="carbohydrate" id="carbohydrate" placeholder="grams">
+                <input type="number" class="form-control" name="carbohydrate" id="carbohydrate" placeholder="grams">
             </div>
 
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <label for="dietary_fibre">Dietary Fibre</label>
-                <input type="number" class="form-control " name="dietary_fibre" id="dietary_fibre" placeholder="grams">
+                <input type="number" class="form-control" name="dietary_fibre" id="dietary_fibre" placeholder="grams">
             </div>
 
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <label for="cholesterol">Cholesterol</label>
-                <input type="number" step="0.01 " class="form-control" name="cholesterol" id="cholesterol" placeholder="milligrams ">
+                <input type="number" class="form-control" name="cholesterol" id="cholesterol" placeholder="milligrams">
             </div>
 
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <label for="energy">Energy</label>
-                <input type="number" step="0.01 " class="form-control " name="energy " id="energy " placeholder="kJ ">
+                <input type="number" class="form-control" name="energy" id="energy" placeholder="kJ">
             </div>
         </div>
 
@@ -164,16 +164,14 @@
 
             <div class="row">
                 <div class="col">
-                    <label for="image_src"></label>
-                    <input type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here ">
-
+                    <input type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here">
                 </div>
             </div>
         </div>
 
-        <div class="row ">
-            <div class="col ">
-                <button class="btn btn-success" type="submit" id="addRecipe">Add Recipe</button> <br>Click here to add your recipe
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-success" type="submit" id="add_recipe">Add Recipe</button> <br>Click here to add your recipe
             </div>
         </div>
 

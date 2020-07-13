@@ -4,9 +4,8 @@ from os import path
 if path.exists("env.py"):
     import env
 
-from flask import Flask, render_template, redirect, request, url_for, flash
-from flask_wtf import FlaskForm
-
+from flask import Flask, render_template, redirect, request, url_for, flash, session
+import bcrypt
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -20,32 +19,83 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 mongo = PyMongo(app)
 
 
+
+''' start of code from Anthony Herbert -> Pretty Printed '''
 @app.route('/')
 def index():
-    return render_template("index.html", title="Community Cookbook")
+    return render_template('index.html',  title="Community Cookbook")
 
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You are logged out', 'info')
+    return render_template('index.html')
 
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        users = mongo.db.users
+        login_user = users.find_one({'username' : request.form['username']})
+        
+        if not login_user:
+            flash('Incorrect username', "warning")
+    
+        if login_user:
+            if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
+                session['username'] = request.form['username']
+                flash('You are logged in', 'success')
+                return render_template("index.html", username=session['username'],
+                        recipes=mongo.db.recipes.find(),courses=mongo.db.meal_courses.find())
+            flash('Incorrect password', 'danger')  
 
+    return render_template('login.html')
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        users = mongo.db.users
+        existing_user = users.find_one({'username' : request.form['username']})
+
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+            users.insert_one({'username' : request.form['username'], 'password' : hashpass, 'email' : request.form['email']})
+            flash('You have successfully created your account - now you can login', 'success')
+            return render_template('login.html')
+        
+        flash('That username already exists!-please choose a different one', 'warning')
+
+    if 'username' in session:
+        flash( 'You are logged in as ' + session['username'], 'success')
+        return render_template('register.html')
+
+    return render_template('register.html')
+
+''' end of code from Anthony Herbert -> Pretty Printed '''
 
 @app.route('/enter_recipe')
 def enter_recipe():
-    recipes=mongo.db.recipes.find()
-    cuisines=mongo.db.cuisines.find().sort('cuisine_name',1)
-    meal_course=mongo.db.meal_course.find().sort('course_name',1)
-    main_ingredient=mongo.db.main_ingredient.find().sort('main_ingredient',1)
-    return render_template('enter_recipe.html', recipes=recipes, 
-                            cuisines=cuisines, main_ingredient=main_ingredient, 
-                            meal_course=meal_course)
+    if 'username' in session:
+        recipes=mongo.db.recipes.find()
+        cuisines=mongo.db.cuisines.find().sort('cuisine_name',1)
+        meal_course=mongo.db.meal_course.find().sort('course_name',1)
+        main_ingredient=mongo.db.main_ingredient.find().sort('main_ingredient',1)
+        return render_template('enter_recipe.html', recipes=recipes, 
+                                cuisines=cuisines, main_ingredient=main_ingredient, 
+                                meal_course=meal_course, cook_name=session['username'])
+    else:
+        flash('You must be logged in to add a recipe', 'warning')
+        return render_template('login.html')
 
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
     recipes = mongo.db.recipes
     req = request.form
+
     recipes.insert_one({
         'recipe_name':req.get('recipe_name'),
-        'cook_name':req.get('cook_name'),
+        'cook_name': session['username'],
         'cuisine_name':req.get('cuisine_name'),
         'main_ingredient':req.get('main_ingredient'),
         'prep_time': req.get('prep_time'),
@@ -62,7 +112,8 @@ def insert_recipe():
         'cholesterol':req.get('cholesterol'),
         'energy':req.get('energy'),
         })
-    return render_template('index.html')
+    flash('Your recipe has been successfully added!', 'success')
+    return redirect(url_for('show_recipes'))
 
 
 @app.route('/show_one_recipe/<recipe_id>')
@@ -114,7 +165,7 @@ def show_recipes():
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
-    flash('Recipe deleted.')
+    flash('Recipe deleted.', 'success')
     return redirect(url_for('show_recipes'))
 
 @app.route('/browse')
@@ -127,10 +178,15 @@ def browse():
 
 @app.route('/cuisines')
 def cuisines():
-    return render_template("cuisines.html",title='Cuisines', cuisines=mongo.db.cuisines.find().collation({'locale':'en'}).sort('cuisine_name',1))
+    if 'username' in session:
+        return render_template("cuisines.html",title='Cuisines', cuisines=mongo.db.cuisines.find().collation({'locale':'en'}).sort('cuisine_name',1))
+    else:
+        flash('You must be logged in to add or edit a cuisine', 'warning')
+        return render_template('login.html')
 
 @app.route('/edit_cuisine/<cuisines_id>')
 def edit_cuisine(cuisines_id):
+    
     return render_template('edit_cuisine.html',
     cuisines=mongo.db.cuisines.find_one({'_id': ObjectId(cuisines_id)}))
 
@@ -141,16 +197,33 @@ def update_cuisine(cuisines_id):
         {'cuisine_name': request.form.get('cuisine_name')})
     return redirect(url_for('cuisines'))
 
-@app.route('/delete_cuisine/<cuisines_id>')
+@app.route('/delete_cuisine/<cuisines_id>', methods = ['POST', 'GET'])
 def delete_cuisine(cuisines_id):
-    mongo.db.cuisines.delete_one({'_id': ObjectId(cuisines_id)})
+    the_cuisine = mongo.db.cuisines.find_one({"_id": ObjectId(cuisines_id)})['created_by']
+    current_user =  session['username']
+    created_by = the_cuisine
+
+    if created_by != current_user:
+        flash("hi fucker")
+        return redirect(url_for('cuisines'))
+
+    else:
+        flash("ffs")    
+    
     return redirect(url_for('cuisines'))
 
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
-    cuisines=mongo.db.cuisines
-    cuisine_doc = {'cuisine_name': request.form.get('cuisine_name')}
-    cuisines.insert_one(cuisine_doc)
+    if request.method == 'POST':
+        cuisines=mongo.db.cuisines
+        existing_cuisine = cuisines.find_one({'cuisine_name' : request.form['cuisine_name']})
+        if existing_cuisine:
+            flash('This cuisine is already available', 'warning')
+        if existing_cuisine is None:
+            cuisine_doc = {'cuisine_name': request.form.get('cuisine_name'),
+                    'created_by' : session['username']}
+            cuisines.insert_one(cuisine_doc)
+            flash('Your cuisine has been added', 'success')
     return redirect(url_for('cuisines'))
 
 @app.route('/add_cuisine')

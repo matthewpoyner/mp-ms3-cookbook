@@ -10,7 +10,7 @@
                 <img src="{{recipe.image_src}}" class="card-img-top" alt="dish image">
                 <div class="card-body">
                     <p class="recipe-name"><a href="{{url_for('show_one_recipe',recipe_id = recipe._id)}}">{{recipe.recipe_name.title()}}</a></p>
-                    <p class="text-muted">by {{recipe.cook_name.title()}}</p>
+                    <p class="text-muted">by {{recipe.cook_name}}</p>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">{{recipe.cuisine_name.title()}}</small>

@@ -1,7 +1,4 @@
 {% extends 'base.html' %}
-<title>{% block title %}The Page Title{% endblock %}</title>{% block content %}
-
-<body>
-    this is a test!
-</body>
-{% endblock %}
+<title>{% block title %}The Page Title{% endblock %}</title>{% block content %} {% with message = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+<h3>{{ message }}</h3>
+{% endfor %} {% endif %} {% endwith %} {% endblock %}

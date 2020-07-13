@@ -101,10 +101,17 @@ li a {
     margin-bottom: 10px;
 }
 .back-button {
-    color: yellow;
+    color: black;
     border: 0px;
     padding: 10px;
 }
-.container {
-    padding: 10px 30px;
+.container.admin {
+    padding: 10px 20px;
+    margin: 5%;
+}
+li {
+    color: black;
+}
+#not_logged_in {
+    display: none;
 }
