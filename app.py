@@ -204,7 +204,7 @@ def delete_cuisine(cuisines_id):
     created_by = the_cuisine
 
     if created_by != current_user:
-        flash("hi fucker")
+        flash('You can only delete cuisines which you have created', 'warning')
         return redirect(url_for('cuisines'))
 
     else:
