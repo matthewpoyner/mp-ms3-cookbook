@@ -1,0 +1,8 @@
+.env
+.vscode
+.venv
+__pycache__
+venv/
+env/
+env.py
+cookery/

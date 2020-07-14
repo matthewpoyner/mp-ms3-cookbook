@@ -18,9 +18,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-
-
 ''' start of code from Anthony Herbert -> Pretty Printed '''
+
 @app.route('/')
 def index():
     return render_template('index.html',  title="Community Cookbook")
@@ -29,7 +28,7 @@ def index():
 @app.route('/logout')
 def logout():
     session.clear()
-    flash('You are logged out', 'info')
+    flash('You have logged out successfully - see you soon', 'info')
     return render_template('index.html')
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -37,14 +36,14 @@ def login():
     if request.method == 'POST':
         users = mongo.db.users
         login_user = users.find_one({'username' : request.form['username']})
-        
+
         if not login_user:
             flash('Incorrect username', "warning")
-    
+
         if login_user:
             if bcrypt.hashpw(request.form['pass'].encode('utf-8'), login_user['password']) == login_user['password']:
                 session['username'] = request.form['username']
-                flash('You are logged in', 'success')
+                flash(session['username'] +' you have logged in successfully!', 'success')
                 return render_template("index.html", username=session['username'],
                         recipes=mongo.db.recipes.find(),courses=mongo.db.meal_courses.find())
             flash('Incorrect password', 'danger')  
@@ -199,14 +198,16 @@ def update_cuisine(cuisines_id):
 
 @app.route('/delete_cuisine/<cuisines_id>', methods = ['POST', 'GET'])
 def delete_cuisine(cuisines_id):
-    the_cuisine = mongo.db.cuisines.find_one({"_id": ObjectId(cuisines_id)})['created_by']
+    created_by = mongo.db.cuisines.find_one({"_id": ObjectId(cuisines_id)})['created_by']
     current_user =  session['username']
-    created_by = the_cuisine
-
+    admin_user = mongo.db.users.find_one({"username" : current_user})['role']
+    created_by = created_by
+    if admin_user == 'admin':
+        flash('admin user')
+        return redirect(url_for('cuisines'))
     if created_by != current_user:
         flash('You can only delete cuisines which you have created', 'warning')
         return redirect(url_for('cuisines'))
-
     else:
         flash("ffs")    
     

@@ -106,12 +106,18 @@ li a {
     padding: 10px;
 }
 .container.admin {
-    padding: 10px 20px;
-    margin: 5%;
+    padding: 0px 10px 20px 20px;
+    margin: 0px, ;
 }
 li {
     color: black;
 }
 #not_logged_in {
     display: none;
+}
+.row {
+    margin: 0px;
+}
+.add-new {
+    margin-bottom: 0px;
 }

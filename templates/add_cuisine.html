@@ -1,4 +1,8 @@
 {% extends 'base.html'%} {% block content %}
+<div class="row">
+    <button onclick="goBack()" class="back-button"><i class="fas fa-chevron-left"></i></button>
+    <a href="{{url_for('add_cuisine')}}" class="btn btn-sm btn-light add-new"><i class="far fa-plus-square"></i> Add New</a>
+</div>
 <title>Add cuisine</title>
 <div class="container">
     <h3>Add Cuisine</h3>
