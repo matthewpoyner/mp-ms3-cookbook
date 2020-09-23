@@ -37,9 +37,21 @@ li a {
 
 /* Recipe Card for Browse Recipes */
 
+.card-title {
+    font-size: 5em;
+}
 
-/* Where there is no image provided by the user the brands chef's hat image is used 
-   - it is scaled down to fit more appropriately*/
+.card {
+    margin: 25px;
+    height: 90%;
+}
+
+.card-footer {
+    background-color: rgba(214, 229, 252, 0.994);
+}
+
+
+/* Where there is no image provided by the user the brand chef hat image is used */
 
 .card-img-top.no-image {
     object-fit: scale-down;
@@ -49,15 +61,7 @@ li a {
     width: 100%;
     height: 30vw;
     object-fit: cover;
-}
-
-.card-title {
-    font-size: 5em;
-}
-
-.card {
-    margin: 10px;
-    height: 100%;
+    background-color: rgba(214, 229, 252, 0.994);
 }
 
 .p browse-cook-name {
@@ -181,6 +185,11 @@ li a {
 .container.admin {
     padding: 0px 10px 20px 20px;
     margin: 0px, ;
+}
+
+.container.browse-recipes {
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 li {

@@ -187,11 +187,12 @@
 
 
         <h3>Recipe Image</h3>
-
         <div class="row">
             <div class="col">
+                {% if recipe.image_src %}
                 <label for="image_src"></label>
-                <input value={{recipe.image_src}} type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here ">
+                <input value="{{ recipe.image_src }}" </input> {% else%}
+                <input value="" type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here "> {% endif %}
             </div>
         </div>
 
