@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-md-6">
                 <label for="recipe_name">Recipe Name</label>
-                <input value="{{recipe.recipe_name}}" type="text-area " class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " required>
+                <input value="{{recipe.recipe_name}}" type="text-area " class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
                 <div class="invalid-feedback">
                     Please enter a recipe name (max 25 characters).
                 </div>
@@ -30,7 +30,7 @@
 
             <div class="col-md-6">
                 <label for="cook_name ">Your Name:</label>
-                <input value="{{recipe.cook_name}}" type="text-area " class="form-control capitalise " name="cook_name" id="cook_name" placeholder="Enter your name ">
+                <input value="{{recipe.cook_name}}" type="text-area " class="form-control capitalise " name="cook_name" id="cook_name" placeholder="Enter your name" disabled>
             </div>
         </div>
         <!--   ------------------------------------------- -->

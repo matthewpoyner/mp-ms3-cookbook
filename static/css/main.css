@@ -26,14 +26,6 @@ li a {
     margin-top: 10px;
 }
 
-.card-img-top {
-    width: 100%;
-    height: 30vw;
-    object-fit: cover;
-}
-
-
-}
 .chefs-hat {
     height: auto;
     width: 1rem;
@@ -41,83 +33,183 @@ li a {
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+
+/* Recipe Card for Browse Recipes */
+
+
+/* Where there is no image provided by the user the brands chef's hat image is used 
+   - it is scaled down to fit more appropriately*/
+
+.card-img-top.no-image {
+    object-fit: scale-down;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 30vw;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 5em;
+}
+
+.card {
+    margin: 10px;
+    height: 100%;
+}
+
+.p browse-cook-name {
+    margin-bottom: 0;
+}
+
+.browse-card-instruction {
+    padding-left: 20px;
+}
+
 .nav-style {
     background-color: #5680E9;
     border-top: 30px;
 }
+
 .container-fluid-recipe {
     margin: 0px 30px
 }
-.card-title {
-    font-size: 5em;
-}
+
 .no-padding {
     padding: 0px
 }
+
 .recipe-name {
     color: black;
 }
+
 .btn {
     margin-top: 0px;
     margin-bottom: 10px;
 }
+
 .nav-ingredients {
     margin-left: 10px;
 }
+
 .single-recipe-image {
     width: 100%;
     height: 30vw;
     object-fit: cover;
 }
+
 .width100 {
     width: 100%;
 }
 
+
 /*Media Queries        */
+
 @media (min-width:576px) and (max-width:2000px) {
     .hide-on-more-than-576px {
         display: none;
     }
 }
+
 @media (min-width:1px) and (max-width:575px) {
     .hide-on-less-than-576px {
         display: none;
     }
 }
+
 .textarea instructions {
     white-space: pre-wrap;
 }
+
 .list-item {
     margin-left: 15px;
 }
+
 .edit-area {
     margin: 15px;
 }
-.card {
-    margin: 10px;
-    height: 100%;
-}
+
 .recipe {
     margin-bottom: 10px;
 }
+
+.button {
+    position: relative;
+    background-color: #4CAF50;
+    border: none;
+    font-size: 28px;
+    color: #FFFFFF;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s;
+    /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.button:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+.button:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+
 .back-button {
     color: black;
     border: 0px;
     padding: 10px;
 }
+
 .container.admin {
     padding: 0px 10px 20px 20px;
     margin: 0px, ;
 }
+
 li {
     color: black;
 }
+
 #not_logged_in {
     display: none;
 }
+
 .row {
     margin: 0px;
 }
+
 .add-new {
     margin-bottom: 0px;
+}
+
+.label-margin {
+    margin: 8px 0px;
+}
+
+.admin-row {
+    margin-bottom: 10px;
+}
+
+div.sticky {
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0;
 }

@@ -17,7 +17,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <img src="static\images\chef_hat.png" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-        <a class="navbar-brand" href="{{url_for('index')}}">Community Cookbook</a>
+        <a class="navbar-brand" href="{{url_for('index')}}">World Community Cookbook</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,15 +29,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('enter_recipe')}}">Add Recipe</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Site Admin
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{{url_for('cuisines')}}">Cuisines</a>
-                        <a class="dropdown-item" href="#">Meal Type</a>
-                        <a class="dropdown-item" href="#">Main Ingredient</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('site_admin')}}">Admin</a>
                 </li>
                 {% if 'username' not in session %}
                 <li class="nav-item active">
@@ -48,7 +41,7 @@
                 </li>
                 {% else %} {% endif%}{% if 'username' in session %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{url_for('logout')}}">logout<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{url_for('logout')}}">Logout<span class="sr-only">(current)</span></a>
                 </li>
                 {% else %} {% endif %}
             </ul>

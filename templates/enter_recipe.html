@@ -1,12 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-
-<title>Add A Recipe</title>
 <div class="row">
-    <div class="col">
-        <button onclick="goBack()" class="back-button"><i class="fas fa-chevron-circle-left"></i></button>
-        <div class="container">
-        </div>
-    </div>
+    <a href="{{url_for('index')}}" class="back-button"><i class="fas fa-chevron-left"></i></a>
 </div>
 <div class="container-fluid">
     <h1>Add A New Recipe</h1>
@@ -14,7 +8,7 @@
     <form name="new_recipe_form" action="{{url_for('insert_recipe')}}" method="POST" class="needs-validation" novalidate>
         <div class="row">
             <div class="col-md-6">
-                <label for="recipe_name">Recipe Name</label>
+                <label class="label-margin" for="recipe_name">Recipe Name</label>
                 <input type="text-area" class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
                 <div class="invalid-feedback">
                     Please enter a recipe name (max 25 characters).
@@ -31,7 +25,7 @@
         <!--   ------------------------------------------- -->
         <div class="row form-group ">
             <div class="col-md-4 ">
-                <label for="cuisine_name">Cuisine Type  <span class="text-muted">(Select from dropdown)</span></label>
+                <label class="label-margin" for="cuisine_name">Cuisine Type  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="cuisine_name" id="cuisine_name" required>
                     <option value = " " disabled selected></option>
                     {% for cuisine in cuisines %}
@@ -47,7 +41,7 @@
             </div>
 
             <div class="col-md-4">
-                <label for="meal_type">Meal Course  <span class="text-muted">(Select from dropdown)</span></label>
+                <label class="label-margin" for="meal_type">Meal Course  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="meal_course" id="meal_course" required>
                     <option value = " " disabled selected></option>
                     {% for meal in meal_course%}
