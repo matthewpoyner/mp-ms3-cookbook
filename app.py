@@ -199,8 +199,7 @@ def search_recipes():
     recipes = mongo.db.recipes.find()
     req = request.form
     search_terms = req.get('search')
-    search_criteria = list(mongo.db.recipes.find({'recipe_name': {'$regex': search_terms}}))
-
+    search_criteria = mongo.db.recipes.find({"recipe_name": search_terms})
     recipes = search_criteria
     return render_template("search_results.html", recipes=recipes)
 
