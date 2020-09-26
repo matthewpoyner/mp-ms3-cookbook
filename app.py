@@ -4,6 +4,7 @@ from os import path
 if path.exists("env.py"):
     import env
 
+import os, json, boto3
 from flask import (Flask, render_template, redirect,
                    request, url_for, flash, session)
 import bcrypt
@@ -19,6 +20,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 
+DEBUG = 'DEVELOPMENT' in os.environ
 
 @app.route('/')
 @app.route('/index')
@@ -107,7 +109,29 @@ def enter_recipe():
     else:
         flash('You must be logged in to add a recipe', 'warning')
         return render_template('login.html', title='Login to add recipe')
+def sign_s3():
+  S3_BUCKET = os.environ.get('S3_BUCKET')
 
+  file_name = request.args.get('file_name')
+  file_type = request.args.get('file_type')
+
+  s3 = boto3.client('s3')
+
+  presigned_post = s3.generate_presigned_post(
+    Bucket = S3_BUCKET,
+    Key = file_name,
+    Fields = {"acl": "public-read", "Content-Type": file_type},
+    Conditions = [
+      {"acl": "public-read"},
+      {"Content-Type": file_type}
+    ],
+    ExpiresIn = 3600
+  )
+
+  return json.dumps({
+    'data': presigned_post,
+    'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+  })
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
@@ -236,8 +260,7 @@ def search_recipes():
 def search():
     query = request.form.get("query")
     recipes = list(mongo.db.recipes.find({"$text": {"$search": query}}))
-    recipe_count = recipes.countDocuments({"$text": {"$search": query}})
-    return render_template("search_results.html", recipes=recipes, recipe_count=recipe_count)
+    return render_template("search_results.html", recipes=recipes)
 
 
 
