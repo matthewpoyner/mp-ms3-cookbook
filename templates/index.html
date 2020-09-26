@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+<title>{% block title %}The Page Title{% endblock %}</title>{% block content %} {% with message = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+<h3>{{ message }}</h3>
+{% endfor %} {% endif %} {% endwith %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
-<body>
-    this is a test!
-</body>
 
-</html>
+<h1>Image goes here!</h1>
+{% endblock %}

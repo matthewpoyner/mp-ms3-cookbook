@@ -1,0 +1,32 @@
+{% extends 'base.html'%} {% block content %}
+<div class="row">
+    <button onclick="goBack()" class="back-button"><i class="fas fa-chevron-left"></i></button>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Add New Cuisine</h1>
+            <form method=POST action="{{ url_for('insert_cuisine') }}" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <div>
+                                <input type="text" class="form-control capitalise" required aria-required="true" name="cuisine_name" id="cuisine_name" placeholder="Cuisine name" required autofocus>
+                                <div class="invalid-feedback">
+                                    Please enter your new cuisine name.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-outline-success"><i class="far fa-plus-square"></i> Add new</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}

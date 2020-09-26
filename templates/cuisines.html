@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row sticky">
+    <a class="back-button" href="{{url_for('site_admin')}}"><i class="fas fa-chevron-left"></i></a>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="container admin">
+            <div class="form-group">
+                <div class="col">
+                    <h2>Add a new cuisine</h2>
+                    <div class="row editarea">
+                        <a href="{{url_for('add_cuisine')}}" class="btn btn-sm btn-light add-new"><i class="far fa-plus-square"></i> Add New</a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="container admin">
+            <div class="form-group">
+                <div class="col">
+                    <h2>Cuisines</h2>
+                    {% for cuisine in cuisines %}
+                    <div class="row editarea">
+                        <a href="{{url_for('edit_cuisine', cuisines_id=cuisine._id)}}" class="btn btn-sm btn-success"><i class="far fa-edit"></i> Edit</a>
+                        <a href="{{url_for('delete_cuisine', cuisines_id=cuisine._id)}}" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</a>
+                        <span class="list-item">{{ cuisine.cuisine_name.title() }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
