@@ -4,7 +4,8 @@ from os import path
 if path.exists("env.py"):
     import env
 
-import os, json, boto3
+import json, boto3
+import settings
 from flask import (Flask, render_template, redirect,
                    request, url_for, flash, session)
 import bcrypt
