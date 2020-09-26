@@ -112,7 +112,8 @@
     </div>
 </div>
 
-{% if user in session%}
+{% if current_user == cook_name or user_role == 'admin' %}
+
 <div class="container">
     <div class="row">
 
@@ -145,4 +146,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
+{% endif %} {% endblock %}

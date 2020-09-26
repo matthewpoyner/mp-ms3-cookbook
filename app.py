@@ -26,6 +26,8 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/index')
 def index():
+    recipes = mongo.db.recipes.find()
+
     return render_template('index.html',  title="World Community Cookbook")
 
 
@@ -140,20 +142,46 @@ def insert_recipe():
 @app.route('/show_one_recipe/<recipe_id>')
 def show_one_recipe(recipe_id):
     the_recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    cook_name = mongo.db.recipes['cook_name']
-    return render_template("show_one_recipe.html", recipes=the_recipe,
-                           cook_name=cook_name)
+    cook_name = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})['cook_name']
+    current_user = session['username']
+    user_role = mongo.db.users.find_one({"username": current_user})['role']
+    return render_template("show_one_recipe.html", recipes=the_recipe)
+
+
+
+
+
 
 
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
     cuisines = mongo.db.cuisines.find().collation({'locale': 'en'}).sort('cuisine_name', 1)
-    meal_course = mongo.db.meal_course.find().sort('course_name', 1)
-    main_ingredient = mongo.db.main_ingredient.find().sort('main_ingredient', 1)
-    return render_template("edit_recipe.html", cuisines=cuisines,
-                           meal_course=meal_course,
-                           main_ingredient=main_ingredient,
-                           recipe=mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}))
+    meal_course = mongo.db.meal_course.find().collation({'locale': 'en'}).sort('course_name',1)
+    main_ingredient = mongo.db.main_ingredient.find().collation({'locale': 'en'}).sort('main_ingredient', 1)
+    recipes=mongo.db.recipes.find()
+    recipe = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
+    cook_name = mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})['cook_name']
+    current_user = session['username']
+
+    user_role = mongo.db.users.find_one({"username": current_user})['role']
+
+
+    if user_role == 'admin':
+        return render_template('edit_recipe.html',
+                            recipe=mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}),
+                            cuisines=cuisines,
+                            meal_course=meal_course,
+                            main_ingredient=main_ingredient)
+    if current_user == cook_name:
+        return render_template('edit_recipe.html',
+                            recipe=mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}),
+                            cuisines=cuisines,
+                            meal_course=meal_course,
+                            main_ingredient=main_ingredient)
+    else:
+        flash('You can only edit recipes which you have created', 'warning')
+        return render_template('show_recipes.html', recipes=recipes)
+
 
 
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
@@ -194,14 +222,28 @@ def show_recipes():
                            title='Browse recipes')
 
 
-@app.route('/search_recipes', methods=["POST"])
+
+
+
+
+
+
+
+@app.route('/search_recipes')
 def search_recipes():
-    recipes = mongo.db.recipes.find()
-    req = request.form
-    search_terms = req.get('search')
-    search_criteria = mongo.db.recipes.find({"recipe_name": search_terms})
-    recipes = search_criteria
-    return render_template("search_results.html", recipes=recipes)
+    return render_template('search_recipes.html')
+
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    query = request.form.get("query")
+    recipes = list(mongo.db.recipes.find({"$text": {"$search": query}}))
+    recipe_count = recipes.countDocuments({"$text": {"$search": query}})
+    return render_template("search_results.html", recipes=recipes, recipe_count=recipe_count)
+
+
+
+
 
 
 @app.route('/delete_recipe/<recipe_id>')
@@ -209,6 +251,9 @@ def delete_recipe(recipe_id):
     mongo.db.recipes.delete_one({'_id': ObjectId(recipe_id)})
     flash('Recipe deleted.', 'success')
     return redirect(url_for('show_recipes'))
+
+
+
 
 
 ''' The routes below handle administration of cuisine types '''
@@ -230,7 +275,6 @@ def edit_cuisine(cuisines_id):
         {"_id": ObjectId(cuisines_id)})['created_by']
     current_user = session['username']
     user_role = mongo.db.users.find_one({"username": current_user})['role']
-
     created_by = created_by
     if user_role == 'admin':
         return render_template('edit_cuisine.html',
