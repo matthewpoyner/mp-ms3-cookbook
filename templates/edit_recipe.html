@@ -15,9 +15,9 @@
         <div class="row">
             <div class="col-md-6">
                 <label for="recipe_name">Recipe Name</label>
-                <input value="{{recipe.recipe_name}}" type="text-area " class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
+                <input value="{{recipe.recipe_name}}" type="text-area " class="form-control capitalise " maxlength="30" name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
                 <div class="invalid-feedback">
-                    Please enter a recipe name (max 25 characters).
+                    Please enter a recipe name (max 30 characters).
                 </div>
                 <div class="valid-feedback">
                     Sounds good!
@@ -68,27 +68,6 @@
                     {% endif %}
                     {% endfor %}
                 </select>
-                <div class="invalid-feedback">
-                    Please select a meal type.
-                </div>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-                <label for="main_ingredient">Main Ingredient  <span class="text-muted">(Select from dropdown)</span></label>
-                <select class="form-control" name="main_ingredient" id="main_ingredient" required>
-                    <option value = "" disabled selected></option>
-                    {% for main in main_ingredient%}
-                    {% if main.main_ingredient == main.main_ingredient %}
-                    <option value="{{ main.main_ingredient }}" selected>{{ main.main_ingredient.title() }}</option>
-                    {% else %}
-                    <option value="{{ main.main_ingredient }}">{{ main.main_ingredient.title() }}</option>
-                    {% endif %}
-                    {% endfor %}
-                    </select>
                 <div class="invalid-feedback">
                     Please select a meal type.
                 </div>
