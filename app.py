@@ -109,6 +109,7 @@ def enter_recipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
+    if form is valid():
     recipes = mongo.db.recipes
     req = request.form
     recipes.insert_one({

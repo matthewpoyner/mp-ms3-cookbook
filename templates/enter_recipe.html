@@ -10,9 +10,9 @@
         <div class="row">
             <div class="col-md-6">
                 <label class="label-margin" for="recipe_name">Recipe Name</label>
-                <input type="text-area" class="form-control capitalise " name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
+                <input type="text-area" class="form-control capitalise " maxlength="30" name="recipe_name" id="recipe_name" placeholder="Enter recipe name " autofocus required>
                 <div class="invalid-feedback">
-                    Please enter a recipe name (max 25 characters).
+                    Please enter a recipe name (max 30 characters).
                 </div>
                 <div class="valid-feedback">
                     Sounds good!
@@ -28,7 +28,7 @@
             <div class="col-md-6 ">
                 <label class="label-margin" for="cuisine_name">Cuisine Type  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="cuisine_name" id="cuisine_name" required>
-                    <option value = " " disabled selected></option>
+                    <option value = "" disabled selected></option>
                     {% for cuisine in cuisines %}
                     <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name.title() }}</option>
                     {% endfor %}
@@ -42,15 +42,15 @@
             </div>
 
             <div class="col-md-6">
-                <label class="label-margin" for="meal_type">Meal Course  <span class="text-muted">(Select from dropdown)</span></label>
+                <label class="label-margin" for="meal_course">Meal Course  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="meal_course" id="meal_course" required>
-                    <option value = " " disabled selected></option>
+                    <option value = "" disabled selected></option>
                     {% for meal in meal_course%}
                     <option value="{{ meal.course_name }}">{{ meal.course_name.title() }}</option>
                     {% endfor %}
                 </select>
                 <div class="invalid-feedback">
-                    Please select a meal type.
+                    Please select a meal course.
                 </div>
                 <div class="valid-feedback">
                     Looks good!
@@ -69,7 +69,6 @@
                 Please enter numbers only
             </div>
             <div class="valid-feedback">
-                Looks good!
             </div>
 
             <div class="no-gutter col-sm-6 col-md-3 col-lg-2">
