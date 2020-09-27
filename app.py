@@ -4,8 +4,6 @@ from os import path
 if path.exists("env.py"):
     import env
 
-import json, boto3
-import settings
 from flask import (Flask, render_template, redirect,
                    request, url_for, flash, session)
 import bcrypt
@@ -109,7 +107,6 @@ def enter_recipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    if form is valid():
     recipes = mongo.db.recipes
     req = request.form
     recipes.insert_one({
