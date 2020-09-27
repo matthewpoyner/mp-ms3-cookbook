@@ -31,10 +31,6 @@ def index():
     return render_template('index.html',  title="World Community Cookbook")
 
 
-@app.route('/site_admin')
-def site_admin():
-    return render_template('site_admin.html',  title="Site Admin")
-
 
 @app.route('/logout')
 def logout():
@@ -110,29 +106,6 @@ def enter_recipe():
     else:
         flash('You must be logged in to add a recipe', 'warning')
         return render_template('login.html', title='Login to add recipe')
-def sign_s3():
-  S3_BUCKET = os.environ.get('S3_BUCKET')
-
-  file_name = request.args.get('file_name')
-  file_type = request.args.get('file_type')
-
-  s3 = boto3.client('s3')
-
-  presigned_post = s3.generate_presigned_post(
-    Bucket = S3_BUCKET,
-    Key = file_name,
-    Fields = {"acl": "public-read", "Content-Type": file_type},
-    Conditions = [
-      {"acl": "public-read"},
-      {"Content-Type": file_type}
-    ],
-    ExpiresIn = 3600
-  )
-
-  return json.dumps({
-    'data': presigned_post,
-    'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
-  })
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
@@ -281,10 +254,10 @@ def delete_recipe(recipe_id):
 ''' The routes below handle administration of cuisine types '''
 
 
-@app.route('/cuisines')
-def cuisines():
+@app.route('/cuisine_admin')
+def cuisine_admin():
     if 'username' in session:
-        return render_template("cuisines.html", title='Cuisines',
+        return render_template("cuisine_admin.html", title='Cuisines',
                                cuisines=mongo.db.cuisines.find().collation({'locale': 'en'}).sort('cuisine_name', 1))
     else:
         flash('You must be logged in to add or edit a cuisine', 'warning')
@@ -303,7 +276,7 @@ def edit_cuisine(cuisines_id):
                                cuisines=mongo.db.cuisines.find_one({'_id': ObjectId(cuisines_id)}))
     if created_by != current_user:
         flash('You can only edit cuisines which you have created', 'warning')
-        return redirect(url_for('cuisines'))
+        return redirect(url_for('cuisine_admin'))
     else:
         return render_template('edit_cuisine.html',
                                cuisines=mongo.db.cuisines.find_one({'_id': ObjectId(cuisines_id)}))
@@ -344,16 +317,16 @@ def delete_cuisine(cuisines_id):
     if user_role == 'admin':
         cuisines.delete_one({'_id': ObjectId(cuisines_id)})
         flash('Cuisine successfully deleted', 'success')
-        return redirect(url_for('cuisines'))
+        return redirect(url_for('cuisine_admin'))
     if created_by != current_user:
         flash('You can only delete cuisines which you have created', 'warning')
 
-        return redirect(url_for('cuisines'))
+        return redirect(url_for('cuisine_admin'))
     else:
         cuisines.delete_one({'_id': ObjectId(cuisines_id)})
         flash('Cuisine successfully deleted', 'success')
-        return redirect(url_for('cuisines'))
-    return redirect(url_for('cuisines'))
+        return redirect(url_for('cuisine_admin'))
+    return redirect(url_for('cuisine_admin'))
 
 
 @app.route('/insert_cuisine', methods=['POST', 'GET'])
@@ -365,14 +338,14 @@ def insert_cuisine():
         for existing in cuisines:
             if existing['cuisine_name'].lower() == new_cuisine.lower():
                 flash('This option is already available!', 'danger')
-                return redirect(url_for('cuisines', cuisines=cuisines))
+                return redirect(url_for('cuisine_admin', cuisines=cuisines))
         else:
             cuisine_doc = ({'cuisine_name': request.form.get('cuisine_name'),
                             'created_by': session['username']})
             cuisine.insert_one(cuisine_doc)
             flash('Your cuisine has been added', 'success')
-            return redirect(url_for('cuisines', cuisines=cuisines))
-    return redirect(url_for('cuisines', cuisines=cuisines))
+            return redirect(url_for('cuisine_admin', cuisines=cuisines))
+    return redirect(url_for('cuisine_admin', cuisines=cuisines))
 
 
 @app.route('/add_cuisine')

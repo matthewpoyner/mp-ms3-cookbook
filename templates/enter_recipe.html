@@ -5,7 +5,7 @@
 <div class="container">
     <h1>Add A New Recipe</h1>
 
-    <form name="new_recipe_form" action="{{url_for('insert_recipe')}}" method="POST" class="needs-validation" novalidate>
+    <form name="new_recipe_form" action="{{url_for('insert_recipe')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
 
         <div class="row">
             <div class="col-md-6">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="row form-group ">
-            <div class="col-md-4 ">
+            <div class="col-md-6 ">
                 <label class="label-margin" for="cuisine_name">Cuisine Type  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="cuisine_name" id="cuisine_name" required>
                     <option value = " " disabled selected></option>
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="label-margin" for="meal_type">Meal Course  <span class="text-muted">(Select from dropdown)</span></label>
                 <select class="form-control" name="meal_course" id="meal_course" required>
                     <option value = " " disabled selected></option>
@@ -56,22 +56,6 @@
                     Looks good!
                 </div>
 
-            </div>
-
-            <div class="col-md-4">
-                <label for="main_ingredient">Main Ingredient  <span class="text-muted">(Select from dropdown)</span></label>
-                <select class="form-control" name="main_ingredient" id="main_ingredient" required>
-                    <option value = " " disabled selected></option>
-                    {% for main in main_ingredient%}
-                    <option value="{{ main.main_ingredient }}">{{ main.main_ingredient.title() }}</option>
-                    {% endfor %}
-                    </select>
-                <div class="invalid-feedback">
-                    Please choose a main ingredient.
-                </div>
-                <div class="valid-feedback">
-
-                </div>
             </div>
         </div>
 
@@ -164,11 +148,16 @@
         <div class="container-fluid no-gutters no-padding">
             <h3>Recipe Image</h3>
         </div>
-
-        <div><input type="file" id="file_input" />
+        <div class="row">
+            <div class="col">
+                <label for="image_src"></label>
+                <input value="" type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here ">
+            </div>
+        </div>
+        <!--        <div><input type="file" id="file_input" />
             <p id="status">Please select a file</p>
             <img id="preview" src="/static/default.png" />
-        </div>
+        </div>-->
         <div class="row">
             <div class="col">
                 <button class="btn btn-success" type="submit" id="add_recipe">Add Recipe</button> <br>Click here to add your recipe
