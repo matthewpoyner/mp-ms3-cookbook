@@ -14,7 +14,16 @@ Milestone Project 3
 ## User stories
 As a.... | I want to... | So that...
 ---------|--------------|-----------
-User|do something |because I want to
+User|View recipes added by others|because I want to increase my recipe portfolio
+User|I want to be able to login to the recipe site|
+Validated User|Add my own recipe|so that I can share it with others
+Validated User|Edit my own recipe|so that I can make changes if required
+Validated User|Delete my own recipe|So that it is no longer available to others if I choose
+Validated User|Be warned before I delete a recipe|So that I don't delete one by mistake
+Validated User|Be warned before I delete a recipe|So that I don't delete one by mistake
+
+
+
 
 
 ## Wireframe
