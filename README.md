@@ -12,10 +12,13 @@ Milestone Project 3
 <br>
 
 ## User stories
+As a.... | I want to... | So that...
+---------|--------------|-----------
+User|do something |because I want to
 
 
 ## Wireframe
-
+`test code()`
 
 ## Features
 ### Existing Features
