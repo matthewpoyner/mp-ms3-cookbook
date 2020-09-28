@@ -6,27 +6,14 @@
 
 <h1>Find a recipe</h1>
 
-<div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-    <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-    </div>
-</div>
 <div class="row form-group">
-    <form class="col s12" action="{{ url_for('search') }}" method="POST">
-        <div class="row center-align">
-            <div class="input-field col s12 m8">
-                <i class="fas fa-search prefix light-blue-text text-darken-4"></i>
-                <input type="text" id="query" name="query" minlength="3" class="validate" required>
-                <label for="query">Search Tasks</label>
-            </div>
-            <div class="col s12 m4">
-                <button class="light-blue darken-1 btn text-shadow" type="submit">
-                    <i class="fas fa-search left"></i> Search
-                </button>
-                <a href="#" class="red btn text-shadow">Reset</a>
-            </div>
+    <form class="col-md-6" action="{{ url_for('search') }}" method="POST">
+        <input type="text" id="query" name="query" minlength="3" class="form-control" placeholder="Enter your search term" aria-label="Search" aria-describedby="button-addon2" class="validate">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search <i class="fas fa-search"></i></button>
         </div>
     </form>
 </div>
+
+
 {% endblock %}
