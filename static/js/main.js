@@ -22,7 +22,7 @@ $(document).ready(function() {
     }, false);
 })();
 
-
+/* This function is used to return to the recipes page from having viewed a recipe in detail */
 function goBack() {
     history.go(-1);
 }
