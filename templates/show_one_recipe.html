@@ -1,11 +1,12 @@
 {% extends 'base.html' %} {% block content %}
-<div class="row">
+<div class="row sticky">
     <a onclick="goBack()"><i class="fas fa-chevron-left"></i></a>
 </div>
-<div class="container-fluid">
+
+<div class="container">
     <div class="row">
         <div class="col">
-            <h1>{{recipes.recipe_name.title()}}</h1>
+            <p>{{recipes.recipe_name.title()}}</p>
         </div>
     </div>
 </div>
@@ -114,7 +115,7 @@
         </div>
     </div>
 </div>
-
+<!-- only display the "Edit" or "Delete" if the logged in user is either the user whom added the recipe or the user role is admin-->
 {% if current_user == cook_name or user_role == 'admin' %}
 
 <div class="container">
@@ -141,10 +142,12 @@
                     Are you sure you want to delete this recipe - this action can not be undone?
                 </div>
                 <div class="modal-footer">
-                    <button href="" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                     <a href="{{url_for('delete_recipe', recipe_id=recipes._id)}}" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Delete</a></div>
             </div>
         </div>
     </div>
 </div>
+{% else %}
+<div class="div"></div>
 {% endif %} {% endblock %}

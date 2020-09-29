@@ -143,35 +143,22 @@
             </div>
         </div>
 
-        <div class="container-fluid no-gutters no-padding">
-            <h3>Recipe Image</h3>
-        </div>
+
+        <h3>Recipe Image</h3>
         <div class="row">
             <div class="col">
-                <label for="image_src"></label>
-                <input value="" type="text" class="form-control" name="image_src" id="image_src" placeholder="Enter your image url here ">
-            </div>
-        </div>
-        <!--        <div><input type="file" id="file_input" />
-            <p id="status">Please select a file</p>
-            <img id="preview" src="/static/default.png" />
-        </div>-->
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-success" type="submit" id="add_recipe">Add Recipe</button> <br>Click here to add your recipe
+                <label for="image_src">Please copy and paste the image url here:</label>
+                <input value="" type="text" class="form-control" name="image_src" id="image_src" placeholder="Paste it here if you have one - if you don't then leave this blank ">
             </div>
         </div>
 
+        <div class="container-fluid no-gutters no-padding add_recipe">
+            <div class="row ">
+                <div class="col">
+                    <button class="btn btn-success" type="submit" id="add_recipe">Add Recipe</button> Click here to add your recipe
+                </div>
+            </div>
+        </div>
     </form>
-    </form>
-
-
-
 </div>
-<script type="text/javascript">
-    $('#new-image').change(function() {
-        var file = $('#new-image')[0].files[0];
-        $('#filename').text(`Image will be set to: ${file.name}`);
-    });
-</script>
 {% endblock %}

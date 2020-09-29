@@ -5,11 +5,11 @@
 {% endfor %} {% endif %} {% endwith %}
 
 <h1>Find a recipe</h1>
-
+<!-- help with the code below provided on Slack by Tim_CI https://code-institute-room.slack.com/archives/C7JQY2RHC/p1595504612220600?thread_ts=1595502710.214500&cid=C7JQY2RHC-->
 <div class="row form-group">
     <form class="col-md-6" action="{{ url_for('search') }}" method="POST">
-        <input type="text" id="query" name="query" minlength="3" class="form-control" placeholder="Enter your search term" aria-label="Search" aria-describedby="button-addon2" class="validate">
-        <div class="input-group-append">
+        <input type="text" id="query" name="query" minlength="3" class="form-control" placeholder="Enter your search term" aria-label="Search" aria-describedby="button-addon2">
+        <div class="input-group-append validate">
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search <i class="fas fa-search"></i></button>
         </div>
     </form>
